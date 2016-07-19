@@ -62,9 +62,14 @@ public class StudentService
     @Path("student/{id}")
     @Consumes("application/xml")
     public Response addStudent(@PathParam("id") int id, String input)
-    {
-
-        String message = "{message:'FStudent added successfully'}";  // Ideally this should be machine readable format Json or XML
+    {   String message;
+        try {
+            studentlist.addStudent(new Student(id,input,input));
+            message = "{message:'Student added'}";
+        } catch (Exception e) {
+            e.printStackTrace();
+            message = "{message:'Student already in the system'}";
+        }
         return Response.status(HttpResponseCodes.SC_OK).entity(message).build();
     }
 }
